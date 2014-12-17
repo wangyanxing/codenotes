@@ -1,0 +1,22 @@
+<div class="navbar-collapse collapse templatemo-sidebar">
+    <ul class="templatemo-sidebar-menu">
+      <li class="active"><a href="#"><i class="fa fa-home"></i>Home</a></li>
+      <li class="sub open">
+        <a href="javascript:;">
+          <i class="fa fa-database"></i> Category <div class="pull-right"><span class="caret"></span></div>
+        </a>
+        <ul class="templatemo-submenu" ng-controller="categoryNaviController">
+          <li ng-repeat="menu in menuitems"><a href="/{{menu.name}}">{{menu.name}}</a></li>
+        </ul>
+      </li>
+    </ul>
+</div>
+<script type="text/javascript">
+	$('.templatemo-sidebar-menu li.sub a').click(function(){
+		if($(this).parent().hasClass('open')) {
+			$(this).parent().removeClass('open');
+		} else {
+			$(this).parent().addClass('open');
+		}
+	});  // sidebar menu click
+</script>

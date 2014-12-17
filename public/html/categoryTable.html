@@ -1,0 +1,74 @@
+<div class="row" ng-app="codeCategorys" data-ng-init="np='John'">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <h4 class="margin-bottom-15">Current category {{np}}</h4>
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>             
+          </tbody>
+        </table>
+      </div>
+      <ul class="pagination pull-right">
+        <li class="disabled"><a href="#">&laquo;</a></li>
+        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">2 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">3 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">4 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">5 <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">&raquo;</a></li>
+      </ul>  
+    </div>
+</div>
+<script type="text/javascript">
+var app = angular.module('codeCategorys', []);
+app.filter('offset', function() { 
+    return function(input, start) {
+        start = parseInt(start, 10);
+        return input.slice(start);
+    };
+});
+
+app.controller("categoryTableController", function($scope) {
+    $scope.itemsPerPage = 10;
+    $scope.currentPage = 0;
+    $scope.items = [];
+    for (var i=0; i<50; i++) {
+        $scope.items.push({id: i, fname: "fname "+ i, lname: "lname " + i, fname: "fname " + i, email: "email " + i });
+    }
+
+    $scope.prevPage = function() { 
+        if ($scope.currentPage > 0) {
+            $scope.currentPage--;
+        }
+    };
+
+
+    $scope.prevPageDisabled = function() {
+        return $scope.currentPage === 0 ? "disabled" : "";
+    };
+
+
+    $scope.pageCount = function() {
+        return Math.ceil($scope.items.length/$scope.itemsPerPage)-1;
+    };
+
+
+    $scope.nextPage = function() {
+        if ($scope.currentPage < $scope.pageCount()) {
+            $scope.currentPage++;
+        }
+    };
+
+    $scope.nextPageDisabled = function() {
+        return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+    }
+});
+</script>
