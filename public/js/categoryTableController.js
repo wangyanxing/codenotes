@@ -21,6 +21,7 @@ var categoryTableController = function($scope) {
         $scope.itemsPerPage = 10;
         $scope.currentPage = 0;
         $scope.items = items;
+        $scope.setPage(0);
         $scope.$apply();
 	});
 
