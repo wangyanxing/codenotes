@@ -1,4 +1,4 @@
-<div class="row" ng-app="codeCategorys">
+<div class="row">
     <div class="col-md-12" ng-controller="categoryTableController">
       <div class="table-responsive">
         <h4 class="margin-bottom-15">Current category</h4>
@@ -14,7 +14,7 @@
           </thead>
           <tbody>  
             <tr ng-repeat="item in items | offset: currentPage*itemsPerPage | limitTo: itemsPerPage">
-                <td>{{offset}}</td> <td>{{item.fname}}<td>{{item.lname}}</td> <td>{{item.fname}} <td>{{item.email}}</td>
+                <td><a href="#" ng-click="goToDetail($event.target)" key="{{item.id}}">{{item.id}}</a></td> <td>{{item.fname}}<td>{{item.lname}}</td> <td>{{item.fname}} <td>{{item.email}}</td>
             </tr>             
           </tbody>
         </table>

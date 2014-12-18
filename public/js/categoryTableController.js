@@ -12,9 +12,17 @@ var categoryTableController = function($scope) {
     $scope.itemsPerPage = 10;
     $scope.currentPage = 0;
     $scope.items = [];
-    for (var i=0; i<100; i++) {
-        $scope.items.push({id: i, fname: "fname "+ i, lname: "lname " + i, fname: "fname " + i, email: "email " + i });
-    }
+    
+    //for (var i=0; i<100; i++) {
+    //    $scope.items.push({id: i, fname: "fname "+ i, lname: "lname " + i, fname: "fname " + i, email: "email " + i });
+    //}
+    
+    socket.on('categoryTable', function (items) {
+        $scope.itemsPerPage = 10;
+        $scope.currentPage = 0;
+        $scope.items = items;
+        $scope.$apply();
+	});
 
     $scope.prevPage = function() { 
         if ($scope.currentPage > 0) {
@@ -23,6 +31,7 @@ var categoryTableController = function($scope) {
         }
     };
 
+    ngScopes.categoryTable = $scope;
 
     $scope.prevPageDisabled = function() {
         return $scope.currentPage === 0 ? "disabled" : "";
@@ -70,6 +79,12 @@ var categoryTableController = function($scope) {
 
     $scope.nextPageDisabled = function() {
         return $scope.currentPage === $scope.pageCount() ? "disabled" : "";
+    }
+    
+    $scope.goToDetail = function(target)
+    {
+        var id = target.getAttribute('key');
+        showNoteDetail(id);
     }
     
     $scope.setPage(0);
