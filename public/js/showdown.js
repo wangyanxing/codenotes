@@ -161,11 +161,10 @@ this.makeHtml = function(text) {
 	// RegExp interprets $ as a special character
 	// when it's in a replacement string
 	text = text.replace(/\$/g,"~D");
-
 	// Standardize line endings
 	text = text.replace(/\r\n/g,"\n"); // DOS to Unix
 	text = text.replace(/\r/g,"\n"); // Mac to Unix
-
+    
 	// Make sure text begins and ends with a couple of newlines:
 	text = "\n\n" + text + "\n\n";
 
@@ -177,7 +176,7 @@ this.makeHtml = function(text) {
 	// match consecutive blank lines with /\n+/ instead of something
 	// contorted like /[ \t]*\n+/ .
 	text = text.replace(/^[ \t]+$/mg,"");
-
+    
 	// Run language extensions
 	Showdown.forEach(g_lang_extensions, function(x){
 		text = _ExecuteExtension(x, text);
@@ -208,6 +207,21 @@ this.makeHtml = function(text) {
 		text = _ExecuteExtension(x, text);
 	});
 
+    var table = window.Showdown.extensions.table();
+    if(table)
+    {
+        //console.log(text);
+        //var t = table();
+        try
+        {
+            text = table[0].filter(text);
+        }
+        catch(e)
+        {
+            alert(e.message);
+        }
+    }
+    
 	return text;
 };
 //

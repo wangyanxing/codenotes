@@ -14,7 +14,7 @@ var showCategoryTable = function(category)
 {
     ngScopes.categoryTable.items = [];
     emit('categoryTable', category);
-    console.log('show');
+
     $('#html_homeContent').css('display', 'none');
     $('#html_categoryTable').css('display','block'); 
     $('#html_noteDetail').css('display','none');
@@ -34,10 +34,13 @@ var ngScopes = {
 };
 
 var socket = io.connect();
-var converter = new Showdown.converter();
+var converter = null;
 
 $(document).ready(function(){
     //showHome();
+
+    converter = new Showdown.converter();
+
     socket.on('detail', function (detail) {
         $('#h1_noteDetailTitle').html(detail.title);
         $('#h4_noteDetailSubTitle').html(detail.subTitle);
