@@ -91,11 +91,20 @@ p + p {
 .tt-query,
 .tt-hint {
   width: 396px;
-  height: 40px;
+  height: 45px;
   padding: 8px 12px;
   font-size: 24px;
-  line-height: 30px;
+  line-height: 40px;
   border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+.typeConfirm{
+  font-size: 24px;
+  line-height: 40px;
+  border: 1px solid #ccc;
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
@@ -176,4 +185,25 @@ p + p {
 
 #rtl-support .tt-dropdown-menu {
   text-align: right;
+}
+
+.GE1LBF0ODE {
+    font-weight: bold;
+    vertical-align: top;
+}
+.GE1LBF0MDE {
+    background: none repeat scroll 0 0 #deeaed;
+    border-radius: 20px;
+    color: #404040;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 18px;
+    margin: 2px 1px;
+    padding: 4px 20px 3px;
+}
+
+.GE1LBF0JRD, .GE1LBF0ESD {
+    background-color: #dfe7ec;
+    border: 1px solid #b6bdc3;
+    opacity: 0.6;
 }

@@ -13,8 +13,9 @@ exports.route[++i] = function(app)
     app.get('/', function(req, res){
         res.redirect('Home.html');
     });
-    
-    app.get('/insert', dbRoutes.insert);
+    app.get('/manage', function(req, res){
+        res.redirect('managerCodeNotes.html');
+    });
 }
 
 exports.route[++i] = function(app)

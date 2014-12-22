@@ -1,11 +1,15 @@
 var ngScopes = {};
 
+var emit = function(key, value)
+{
+    socket.emit(key, value);
+}
+
 var showHome = function()
 {
     $('#html_homeContentManage').css('display', 'block');
     $('#html_addCodeNote').css('display','none'); 
     $('#html_manageCodeNote').css('display','none');
-    $('#html_updateCodeNote').css('display','none');
 }
 
 var showAddNote = function()
@@ -13,7 +17,6 @@ var showAddNote = function()
     $('#html_homeContentManage').css('display', 'none');
     $('#html_addCodeNote').css('display','block'); 
     $('#html_manageCodeNote').css('display','none');
-    $('#html_updateCodeNote').css('display','none');
 }
 
 var showManageNote = function()
@@ -21,15 +24,20 @@ var showManageNote = function()
     $('#html_homeContentManage').css('display', 'none');
     $('#html_addCodeNote').css('display','none'); 
     $('#html_manageCodeNote').css('display','block');
-    $('#html_updateCodeNote').css('display','none');
+    
+    emit('categoryTable', 'all');
 }
 
-var showUpdateNote = function()
+var showUpdateNote = function(id)
 {
     $('#html_homeContentManage').css('display', 'none');
-    $('#html_addCodeNote').css('display','none'); 
+    $('#html_addCodeNote').css('display','block'); 
     $('#html_manageCodeNote').css('display','none');
-    $('#html_updateCodeNote').css('display','block');
+    
+    ngScopes.addNote.noteId = id;
+    emit('detail', id);
 }
 
 showHome();
+
+var socket = io.connect();

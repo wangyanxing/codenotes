@@ -1,16 +1,25 @@
-<div>
-    <h1>Add a new code note</h1>     
+<div ng-controller="categoryCurrentController">
+    <h1>Code note</h1>
     <div class="row">
         <br />
         <div class="col-md-8">
           <div class="templatemo-progress">
-            <div id="the-basics">
-                        <input class="typeahead" type="text" placeholder="States of USA">
-                        </div> 
+            <div class="list-group">
+                <b><font size="4">Categorys: </font></b>
+                <div class="GE1LBF0MDE"  ng-repeat="category in currentNodeCategoryList">
+                    <span class="GE1LBF0ODE">{{category}}</span>
+                    <img class="GE1LBF0NDE" width="8" height="8" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAvUlEQVR42mPoXLh5dvOc9Tc2HTyp+P//f0YQBrFBYp0LtsxhaF+w6WHDrLX/2+ZvvLvt6BllEAaxQWIgOYYXb98X9i7d9haq6BEIg9ggsWev3xcyAI20fPPhY0vPkq0fQBIgDGK/evepFShnBVLAf+/5qxCg4FskBW9BYiA5BpCdQLvugyT6lm77AsJg+xduegCSY4A5qH/ptnfvPn2eAcIgNkisdf7GewxzNxzcA3IQyB1AI11BGMQGiYHkAAmetjPk0pqVAAAAAElFTkSuQmCC" ng-click="removeCategory($event.target)" categoryName="{{category}}">
+                </div>
+                <button class="btn" id="btn_categoryShowHide" ng-click="showCategoryDialog()">+</button>
+                <div id="the-basics" style="display:none">
+                    <input class="typeahead" type="text" placeholder="Add category" ng-model="ifd_currentCategory">
+                    <button class="btn typeConfirm" ng-click="addNewCategory()">Save</button>
+                </div>
+            </div> 
                         
             <div class="list-group">
                 <!--div class="table-responsive"-->
-              <h4 class="list-group-item-heading">Detail</h4>
+              <h3 class="list-group-item-heading">Detail</h3>
               <a href="#" class="list-group-item">
                 <div class="table-responsive">
                     <div class="col-md-8">
@@ -18,7 +27,7 @@
                             Submiter
                         </div>
                         <div class="col-md-6">
-                            <input type="text" />
+                            <input type="text"  ng-model="ifd_submitter" />
                         </div>
                     </div>
                 </div>
@@ -30,7 +39,7 @@
                             Title
                         </div>
                         <div class="col-md-6">
-                            <input type="text" />
+                            <input type="text" ng-model="ifd_title" />
                         </div>
                     </div>
                 </div>
@@ -42,7 +51,7 @@
                             Description
                         </div>
                         <div class="col-md-6">
-                            <textarea cols='80' rows='5'></textarea>
+                            <textarea cols='80' rows='5' ng-model="ifd_description"></textarea>
                         </div>
                     </div>
                 </div>
@@ -50,7 +59,7 @@
               <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">Note content</h4>
                 <div class="table-responsive">
-                        <textarea id="ta_noteContent"></textarea>
+                        <textarea id="ta_noteContent" ng-model="html"></textarea>
                 </div>
                 <div id="div_noteDetailHtml"></div>
               </a>
@@ -70,7 +79,19 @@ $(document).ready(function()
         savable:true, 
         onSave: function(e) {
             var content = converter.makeHtml(e.getContent());
-            $('#div_noteDetailHtml').html(content);
+            //$('#div_noteDetailHtml').html(content);
+            var msg = {};
+            msg.category = ngScopes.addNote.currentNodeCategoryList;
+            msg.submitter = "" + ngScopes.addNote.ifd_submitter;
+            msg.title = "" + ngScopes.addNote.ifd_title;
+            msg.desc = "" + ngScopes.addNote.ifd_description;
+            msg.html = "" + ngScopes.addNote.html;
+            if(ngScopes.addNote.noteId)
+            {
+                msg.id = ngScopes.addNote.noteId;
+            }
+            
+            emit('newNote', msg);
         },
         onPreview: function(e) {
             var previewContent
@@ -110,17 +131,6 @@ $(document).ready(function()
   };
 };
 
-var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
-  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
-  'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
-  'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
-  'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
-  'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
-  'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
-  'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
-  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming', '辽宁'
-];
-
 $('#the-basics .typeahead').typeahead({
   hint: true,
   highlight: true,
@@ -129,7 +139,7 @@ $('#the-basics .typeahead').typeahead({
 {
   name: 'states',
   displayKey: 'value',
-  source: substringMatcher(states)
+  source: substringMatcher(categoryDictionary)
 });
 
 });

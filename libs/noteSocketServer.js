@@ -2,30 +2,7 @@ var socketio = require('socket.io');
 
 var io;
 
-exports.listen = function (server) {
-	io = socketio.listen(server);
-    
-	io.sockets.on('connection', function (socket) {
-        socket.on('menu', function(){
-            socket.emit('menu', [{name:"Number"}, {name:"Sort"}, {name:"Tree"}, {name:"Sum"}, {name: "Map"}]);
-        });
-        
-        socket.on('categoryTable', function(category){
-            if(category)
-            {   
-                var items = [];
-                for (var i=0; i<100; i++) {
-                    items.push({id: category + " " + i, fname: "fname "+ i, lname: "lname " + i, fname: "fname " + i, email: "email " + i });
-                }
-                socket.emit('categoryTable', items);
-            }
-        });
-        
-        socket.on('detail', function(key){
-            var detail = {};
-            detail.title = key + " title";
-            detail.subTitle = key + " sub title";
-            detail.html = '## Bootstrap Markdown\n\
+var sampleMarkdown = '## Bootstrap Markdown\n\
 \n\
 Markdown editing meet Bootstrap.\n\
 \n\
@@ -51,6 +28,49 @@ Demo and documentation on [http://toopay.github.io/bootstrap-markdown/](http://t
 > WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n\
 > See the License for the specific language governing permissions and\n\
 > limitations under the License.';
+
+
+exports.listen = function (server) {
+	io = socketio.listen(server);
+    
+	io.sockets.on('connection', function (socket) {
+        socket.on('menu', function(){
+            socket.emit('menu', [{name:"Number"}, {name:"Sort"}, {name:"Tree"}, {name:"Sum"}, {name: "Map"}]);
+        });
+        
+        socket.on('categoryTable', function(category){
+            if(category)
+            {   
+                var items = [];
+                for (var i=0; i<100; i++) {
+                    items.push({id: category + " " + i, fname: "fname "+ i, lname: "lname " + i, fname: "fname " + i, email: "email " + i });
+                }
+                socket.emit('categoryTable', items);
+            }
+        });
+        
+        socket.on('newNote', function(msg){
+            console.log(msg.category);
+            console.log(msg.submitter);
+            console.log(msg.title);
+            console.log(msg.desc);
+            console.log(msg.html);
+            
+            socket.emit('newNoteSuccess');
+        });
+        
+        socket.on('newCategory', function(category){
+            console.log(category);
+        });
+        
+        socket.on('detail', function(key){
+            var detail = {};
+            detail.currentNodeCategoryList = ["Map", "Sort", "Sum"];
+            detail.ifd_submitter = "tester";
+            detail.title = key + " title";
+            detail.ifd_description = key + ' desc';
+            detail.subTitle = key + " sub title";
+            detail.html = sampleMarkdown;
 
             socket.emit('detail', detail);
         });

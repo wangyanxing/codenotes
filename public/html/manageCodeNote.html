@@ -1,1 +1,32 @@
-manageCodeNote
+<div class="row">
+    <div class="col-md-12" ng-controller="categoryTableManageController">
+      <div class="table-responsive">
+        <h4 class="margin-bottom-15">Note</h4>
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>  
+            <tr ng-repeat="item in items | offset: currentPage*itemsPerPage | limitTo: itemsPerPage">
+                <td><a href="#" ng-click="goToDetail($event.target)" key="{{item.id}}">{{item.id}}</a></td> <td>{{item.fname}}<td>{{item.lname}}</td> <td>{{item.fname}} <td>{{item.email}}</td>
+            </tr>             
+          </tbody>
+        </table>
+      </div>
+      <ul class="pagination pull-right">
+        <li ng-class="prevPageDisabled()">
+            <a href ng-click="prevPage()">  Prev</a>
+        </li>
+        <li ng-repeat="index in pagerIndex"><a href ng-click="setPage(index-1)">{{index}}</a></li>
+        <li ng-class="nextPageDisabled()">
+        <a href ng-click="nextPage()">Next </a>
+        </li>
+      </ul>  
+    </div>
+</div>
